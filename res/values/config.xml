@@ -23,4 +23,8 @@
          The array should be sorted in the same order as the
          touchscreen gestures advertised by the device's CMHW impl. -->
     <integer-array name="config_defaultTouchscreenGestureActions" />
+
+    <!-- Metrics server endpoints -->
+    <string name="stats_aokp_url">http://stats.aokp.co/submit.php</string>
+
 </resources>
