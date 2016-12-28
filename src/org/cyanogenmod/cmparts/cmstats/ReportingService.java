@@ -33,8 +33,6 @@ public class ReportingService extends IntentService {
     /* package */ static final String TAG = "CMStats";
     private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
 
-    public static final String EXTRA_OPTING_OUT = "cmstats::opt_out";
-
     public ReportingService() {
         super(ReportingService.class.getSimpleName());
     }
@@ -49,14 +47,12 @@ public class ReportingService extends IntentService {
         String deviceCountry = Utilities.getCountryCode(getApplicationContext());
         String deviceCarrier = Utilities.getCarrier(getApplicationContext());
         String deviceCarrierId = Utilities.getCarrierId(getApplicationContext());
-        boolean optOut = intent.getBooleanExtra(EXTRA_OPTING_OUT, false);
 
         final int jobId = AnonymousStats.getNextJobId(getApplicationContext());
 
         if (DEBUG) Log.d(TAG, "scheduling job id: " + jobId);
 
         PersistableBundle bundle = new PersistableBundle();
-        bundle.putBoolean(StatsUploadJobService.KEY_OPT_OUT, optOut);
         bundle.putString(StatsUploadJobService.KEY_DEVICE_NAME, deviceName);
         bundle.putString(StatsUploadJobService.KEY_UNIQUE_ID, deviceId);
         bundle.putString(StatsUploadJobService.KEY_VERSION, deviceVersion);
@@ -73,12 +69,6 @@ public class ReportingService extends IntentService {
                 .setExtras(bundle)
                 .setPersisted(true)
                 .build());
-
-        if (optOut) {
-            // we've successfully scheduled the opt out.
-            CMSettings.Secure.putIntForUser(getContentResolver(),
-                    CMSettings.Secure.STATS_COLLECTION_REPORTED, 1, UserHandle.USER_OWNER);
-        }
 
         // reschedule
         AnonymousStats.updateLastSynced(this);

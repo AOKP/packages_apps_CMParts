@@ -52,7 +52,6 @@ public class StatsUploadJobService extends JobService {
     public static final String KEY_CARRIER = "carrier";
     public static final String KEY_CARRIER_ID = "carrierId";
     public static final String KEY_TIMESTAMP = "timeStamp";
-    public static final String KEY_OPT_OUT = "optOut";
 
     private final Map<JobParameters, StatsUploadTask> mCurrentJobs
             = Collections.synchronizedMap(new ArrayMap<JobParameters, StatsUploadTask>());
@@ -104,13 +103,12 @@ public class StatsUploadJobService extends JobService {
             String deviceCarrier = extras.getString(KEY_CARRIER);
             String deviceCarrierId = extras.getString(KEY_CARRIER_ID);
             long timeStamp = extras.getLong(KEY_TIMESTAMP);
-            boolean optOut = extras.getBoolean(KEY_OPT_OUT);
 
             boolean success = false;
             if (!isCancelled()) {
                 try {
                     success = uploadToCM(deviceId, deviceName, deviceVersion, deviceCountry,
-                            deviceCarrier, deviceCarrierId, optOut);
+                            deviceCarrier, deviceCarrierId);
                 } catch (IOException | JSONException e) {
                     Log.e(TAG, "Could not upload stats checkin to aokp server", e);
                     success = false;
@@ -130,12 +128,10 @@ public class StatsUploadJobService extends JobService {
     }
 
     private boolean upload(String deviceId, String deviceName, String deviceVersion,
-                               String deviceCountry, String deviceCarrier, String deviceCarrierId,
-                               boolean optOut)
+                               String deviceCountry, String deviceCarrier, String deviceCarrierId)
             throws IOException {
 
         final Uri uri = Uri.parse(getString(R.string.stats_aokp_url)).buildUpon()
-                .appendQueryParameter("opt_out", optOut ? "1" : "0")
                 .appendQueryParameter("device_hash", deviceId)
                 .appendQueryParameter("device_name", deviceName)
                 .appendQueryParameter("device_version", deviceVersion)
