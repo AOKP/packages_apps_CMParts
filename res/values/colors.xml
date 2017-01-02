@@ -38,4 +38,6 @@
     <color name="perf_hot">#ffd10015</color>
     <color name="perf_cold">#ff005994</color>
 
+    <color name="seekbar_dot_color">@android:color/holo_red_light</color>
+
 </resources>
