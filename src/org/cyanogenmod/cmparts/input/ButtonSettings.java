@@ -42,6 +42,7 @@ import org.cyanogenmod.cmparts.R;
 import org.cyanogenmod.cmparts.SettingsPreferenceFragment;
 import org.cyanogenmod.cmparts.utils.DeviceUtils;
 import org.cyanogenmod.cmparts.utils.TelephonyUtils;
+import org.cyanogenmod.cmparts.widget.SeekBarPreferenceCham;
 import org.cyanogenmod.internal.util.ScreenType;
 
 import java.util.List;
@@ -73,6 +74,9 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
     private static final String KEY_VOLUME_CONTROL_RING_STREAM = "volume_keys_control_ring_stream";
     private static final String KEY_CAMERA_DOUBLE_TAP_POWER_GESTURE
             = "camera_double_tap_power_gesture";
+
+    private static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
+    private static final String KILL_APP_LONGPRESS_TIMEOUT = "kill_app_longpress_timeout";
 
     private static final String CATEGORY_POWER = "power_key";
     private static final String CATEGORY_HOME = "home_key";
@@ -141,6 +145,9 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
     private SwitchPreference mHomeAnswerCall;
     private SwitchPreference mCameraDoubleTapPowerGesture;
 
+    private SwitchPreference mKillAppLongPressBack;
+    private SeekBarPreferenceCham mKillAppLongpressTimeout;
+
     private Handler mHandler;
 
     @Override
@@ -207,6 +214,20 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
 
         // Force Navigation bar related options
         mDisableNavigationKeys = (SwitchPreference) findPreference(DISABLE_NAV_KEYS);
+
+        // Kill-app long press back
+        mKillAppLongPressBack = (SwitchPreference) findPreference(KILL_APP_LONGPRESS_BACK);
+        mKillAppLongPressBack.setOnPreferenceChangeListener(this);
+        int killAppLongPressBack = Settings.Secure.getInt(resolver,
+                Settings.Secure.KILL_APP_LONGPRESS_BACK, 0);
+        mKillAppLongPressBack.setChecked(killAppLongPressBack != 0);
+
+        // Kill-app long press back delay
+        mKillAppLongpressTimeout = (SeekBarPreferenceCham) findPreference(KILL_APP_LONGPRESS_TIMEOUT);
+        int killconf = Settings.Secure.getInt(resolver,
+                Settings.Secure.KILL_APP_LONGPRESS_TIMEOUT, 1000);
+        mKillAppLongpressTimeout.setValue(killconf);
+        mKillAppLongpressTimeout.setOnPreferenceChangeListener(this);
 
         final CMHardwareManager hardware = CMHardwareManager.getInstance(getActivity());
 
@@ -544,6 +565,8 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+        final ContentResolver resolver = getActivity().getContentResolver();
+
         if (preference == mHomeLongPressAction) {
             handleActionListChange(mHomeLongPressAction, newValue,
                     CMSettings.System.KEY_HOME_LONG_PRESS_ACTION);
@@ -584,6 +607,16 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
             boolean value = (Boolean) newValue;
             Settings.Secure.putInt(getContentResolver(), CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED,
                     value ? 0 : 1 /* Backwards because setting is for disabling */);
+            return true;
+        } else if (preference == mKillAppLongPressBack) {
+            boolean value = (Boolean) newValue;
+            Settings.Secure.putInt(resolver,
+                    Settings.Secure.KILL_APP_LONGPRESS_BACK, value ? 1 : 0);
+            return true;
+        } else if (preference == mKillAppLongpressTimeout) {
+            int killconf = (Integer) newValue;
+            Settings.Secure.putInt(resolver,
+                    Settings.Secure.KILL_APP_LONGPRESS_TIMEOUT, killconf);
             return true;
         }
         return false;
