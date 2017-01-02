@@ -42,6 +42,7 @@ import org.cyanogenmod.cmparts.R;
 import org.cyanogenmod.cmparts.SettingsPreferenceFragment;
 import org.cyanogenmod.cmparts.utils.DeviceUtils;
 import org.cyanogenmod.cmparts.utils.TelephonyUtils;
+import org.cyanogenmod.cmparts.widget.CustomSeekBarPreference;
 import org.cyanogenmod.internal.util.ScreenType;
 
 import java.util.List;
@@ -73,6 +74,9 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
     private static final String KEY_VOLUME_CONTROL_RING_STREAM = "volume_keys_control_ring_stream";
     private static final String KEY_CAMERA_DOUBLE_TAP_POWER_GESTURE
             = "camera_double_tap_power_gesture";
+
+    private static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
+    private static final String KILL_APP_LONGPRESS_TIMEOUT = "kill_app_longpress_timeout";
 
     private static final String CATEGORY_POWER = "power_key";
     private static final String CATEGORY_HOME = "home_key";
@@ -140,6 +144,9 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
     private SwitchPreference mPowerEndCall;
     private SwitchPreference mHomeAnswerCall;
     private SwitchPreference mCameraDoubleTapPowerGesture;
+
+    private SwitchPreference mKillAppLongPressBack;
+    private CustomSeekBarPreference mKillAppLongpressTimeout;
 
     private Handler mHandler;
 
@@ -287,6 +294,19 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
                 backCategory.removePreference(findPreference(CMSettings.System.BACK_WAKE_SCREEN));
                 prefScreen.removePreference(backCategory);
             }
+            // Kill-app long press back
+            mKillAppLongPressBack = (SwitchPreference) findPreference(KILL_APP_LONGPRESS_BACK);
+            mKillAppLongPressBack.setOnPreferenceChangeListener(this);
+            int killAppLongPressBack = Settings.Secure.getInt(getContentResolver(),
+                    KILL_APP_LONGPRESS_BACK, 0);
+            mKillAppLongPressBack.setChecked(killAppLongPressBack != 0);
+
+            // Kill-app long press back delay
+            mKillAppLongpressTimeout = (CustomSeekBarPreference) findPreference(KILL_APP_LONGPRESS_TIMEOUT);
+            int killconf = Settings.System.getInt(getContentResolver(),
+                    Settings.Secure.KILL_APP_LONGPRESS_TIMEOUT, 1000);
+            mKillAppLongpressTimeout.setValue(killconf);
+            mKillAppLongpressTimeout.setOnPreferenceChangeListener(this);
         } else {
             prefScreen.removePreference(backCategory);
         }
@@ -584,6 +604,16 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
             boolean value = (Boolean) newValue;
             Settings.Secure.putInt(getContentResolver(), CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED,
                     value ? 0 : 1 /* Backwards because setting is for disabling */);
+            return true;
+        } else if (preference == mKillAppLongPressBack) {
+            boolean value = (Boolean) newValue;
+            Settings.Secure.putInt(getContentResolver(), KILL_APP_LONGPRESS_BACK,
+                    value ? 1 : 0);
+            return true;
+        } else if (preference == mKillAppLongpressTimeout) {
+            int killconf = (Integer) newValue;
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.Secure.KILL_APP_LONGPRESS_TIMEOUT, killconf);
             return true;
         }
         return false;
