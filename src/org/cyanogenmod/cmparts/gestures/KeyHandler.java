@@ -148,10 +148,10 @@ public class KeyHandler implements DeviceKeyHandler {
         }
     }
 
-    public KeyEvent handleKeyEvent(final KeyEvent event) {
+    public boolean handleKeyEvent(final KeyEvent event) {
         final int action = mActionMapping.get(event.getScanCode(), -1);
         if (action < 0 || event.getAction() != KeyEvent.ACTION_UP || !hasSetupCompleted()) {
-            return event;
+            return false;
         }
 
         if (action != 0 && !mEventHandler.hasMessages(GESTURE_REQUEST)) {
@@ -168,7 +168,7 @@ public class KeyHandler implements DeviceKeyHandler {
             }
         }
 
-        return null;
+        return true;
     }
 
     private boolean hasSetupCompleted() {
