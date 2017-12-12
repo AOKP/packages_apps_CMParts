@@ -241,6 +241,11 @@
   <string name="torch_long_press_power_gesture_title">Apăsaţi lung pentru lanternă</string>
   <string name="torch_long_press_power_gesture_desc">Activați lanterna prin apăsarea lungă a butonului pornire în timp ce ecranul este oprit</string>
   <string name="torch_long_press_power_timeout_title">Oprire automată lanternă</string>
+  <string name="torch_long_press_power_timeout_never">Niciodată</string>
+  <string name="torch_long_press_power_timeout_1min">1 minut</string>
+  <string name="torch_long_press_power_timeout_2min">2 minute</string>
+  <string name="torch_long_press_power_timeout_5min">5 minute</string>
+  <string name="torch_long_press_power_timeout_10min">10 minute</string>
   <!-- Profiles -->
   <string name="profile_menu_delete_title">Ștergeți</string>
   <string name="profile_action_none">Lăsați neschimbat</string>
@@ -527,4 +532,37 @@
   <string name="charging_sounds_ringtone_title">Sunet notificare</string>
   <string name="charging_sounds_ringtone_silent">Silențios</string>
   <!-- Gestures: Touchscreen gestures -->
+  <string name="touchscreen_gesture_settings_title">Gesturi touchscreen</string>
+  <string name="touchscreen_gesture_settings_summary">Efectuați diverse gesturi pe touchscreen pentru acţiuni rapide</string>
+  <string name="touchscreen_gestures_haptic_feedback_title">Feedback haptic</string>
+  <string name="touchscreen_gestures_haptic_feedback_summary">Vibrează atunci când este detectat un gest touchscreen</string>
+  <string name="touchscreen_gesture_two_finger_down_swipe_title">Glisați în jos cu două degete</string>
+  <string name="touchscreen_gesture_one_finger_up_swipe_title">Glisați în sus cu un deget</string>
+  <string name="touchscreen_gesture_one_finger_down_swipe_title">Glisați în jos cu un deget</string>
+  <string name="touchscreen_gesture_one_finger_left_swipe_title">Glisați în stânga cu un deget</string>
+  <string name="touchscreen_gesture_one_finger_right_swipe_title">Glisați în dreapta cu un deget</string>
+  <string name="touchscreen_gesture_up_arrow_title">Desenați un \"Λ\"</string>
+  <string name="touchscreen_gesture_down_arrow_title">Desenați un \"V\"</string>
+  <string name="touchscreen_gesture_left_arrow_title">Desenați un \"&lt;\"</string>
+  <string name="touchscreen_gesture_right_arrow_title">Desenați un \"&gt;\"</string>
+  <string name="touchscreen_gesture_letter_c_title">Desenați litera \"C\"</string>
+  <string name="touchscreen_gesture_letter_e_title">Desenați litera \"e\"</string>
+  <string name="touchscreen_gesture_letter_o_title">Desenați litera \"O\"</string>
+  <string name="touchscreen_gesture_letter_m_title">Desenați litera \"M\"</string>
+  <string name="touchscreen_gesture_letter_s_title">Desenați litera \"S\"</string>
+  <string name="touchscreen_gesture_letter_v_title">Desenați litera \"V\"</string>
+  <string name="touchscreen_gesture_letter_w_title">Desenați litera \"W\"</string>
+  <string name="touchscreen_gesture_letter_z_title">Desenați litera \"Z\"</string>
+  <!-- Gesture: Stylus gestures -->
+  <string name="touchscreen_gesture_action_dialog_title">Acțiune gest</string>
+  <string name="touchscreen_gesture_action_do_nothing">Nu fă nimic</string>
+  <string name="touchscreen_gesture_action_flashlight">Comută lanterna</string>
+  <string name="touchscreen_gesture_action_camera">Deschide camera</string>
+  <string name="touchscreen_gesture_action_browser">Deschide browser-ul</string>
+  <string name="touchscreen_gesture_action_dialer">Deschide telefonul</string>
+  <string name="touchscreen_gesture_action_email">Vizualizați-vă email-urile</string>
+  <string name="touchscreen_gesture_action_messages">Vizualizați-vă mesajele</string>
+  <string name="touchscreen_gesture_action_play_pause_music">Redare/pauză redarea muzicii</string>
+  <string name="touchscreen_gesture_action_previous_track">Navigaţi la piesa anterioară</string>
+  <string name="touchscreen_gesture_action_next_track">Treceți la următoarea piesă</string>
 </resources>
