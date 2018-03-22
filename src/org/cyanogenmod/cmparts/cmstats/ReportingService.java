@@ -41,24 +41,28 @@ public class ReportingService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         JobScheduler js = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
 
-        String deviceId = Utilities.getUniqueID(getApplicationContext());
-        String deviceName = Utilities.getDevice();
-        String deviceVersion = Utilities.getModVersion();
-        String deviceCountry = Utilities.getCountryCode(getApplicationContext());
-        String deviceCarrier = Utilities.getCarrier(getApplicationContext());
-        String deviceCarrierId = Utilities.getCarrierId(getApplicationContext());
+        String deviceId = Utilities.getDeviceID(getApplicationContext());
+        String deviceName = Utilities.getDeviceName();
+        String buildVersion = Utilities.getBuildVersion();
+        String buildDate = Utilities.getBuildDate();
+        String releaseType = Utilities.getReleaseType();
+        String countryCode = Utilities.getCountryCode(getApplicationContext());
+        String carrierName = Utilities.getCarrierName(getApplicationContext());
+        String carrierId = Utilities.getCarrierId(getApplicationContext());
 
         final int jobId = AnonymousStats.getNextJobId(getApplicationContext());
 
         if (DEBUG) Log.d(TAG, "scheduling job id: " + jobId);
 
         PersistableBundle bundle = new PersistableBundle();
+        bundle.putString(StatsUploadJobService.KEY_DEVICE_ID, deviceId);
         bundle.putString(StatsUploadJobService.KEY_DEVICE_NAME, deviceName);
-        bundle.putString(StatsUploadJobService.KEY_UNIQUE_ID, deviceId);
-        bundle.putString(StatsUploadJobService.KEY_VERSION, deviceVersion);
-        bundle.putString(StatsUploadJobService.KEY_COUNTRY, deviceCountry);
-        bundle.putString(StatsUploadJobService.KEY_CARRIER, deviceCarrier);
-        bundle.putString(StatsUploadJobService.KEY_CARRIER_ID, deviceCarrierId);
+        bundle.putString(StatsUploadJobService.KEY_BUILD_VERSION, buildVersion);
+        bundle.putString(StatsUploadJobService.KEY_BUILD_DATE, buildDate);
+        bundle.putString(StatsUploadJobService.KEY_RELEASE_TYPE, releaseType);
+        bundle.putString(StatsUploadJobService.KEY_COUNTRY_CODE, countryCode);
+        bundle.putString(StatsUploadJobService.KEY_CARRIER_NAME, carrierName);
+        bundle.putString(StatsUploadJobService.KEY_CARRIER_ID, carrierId);
         bundle.putLong(StatsUploadJobService.KEY_TIMESTAMP, System.currentTimeMillis());
 
         // schedule aokp stats upload
